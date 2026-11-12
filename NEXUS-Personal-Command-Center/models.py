@@ -1,4 +1,6 @@
 
+from datetime import date
+
 class Task:
     def __init__(self, title):
         self.title = title
@@ -27,15 +29,22 @@ class Note:
 
 
 class Habit:
-    def __init__(self, name):
+    def __init__(self, name, completion_dates=None):
         self.name = name
-        self.completed_days = 0
+        self.completion_dates = completion_dates or []
 
     def complete_day(self):
-        self.completed_days += 1
+        today = date.today().isoformat()
+
+        if today not in self.completion_dates:
+            self.completion_dates.append(today)
+            return True
+
+        return False
 
     def to_dict(self):
         return {
             "name": self.name,
-            "completed_days": self.completed_days
+            "completion_dates": self.completion_dates,
+            "completed_days": len(self.completion_dates)
         }

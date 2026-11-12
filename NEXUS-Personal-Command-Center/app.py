@@ -1,6 +1,6 @@
 from models import Task, Note, Habit
 from storage import save_data, load_data
-
+from datetime import date
 
 class Nexus:
 
@@ -197,3 +197,61 @@ class Nexus:
         for index, note in enumerate(self.notes, start=1):
             print(f"\n{index}. {note['title']}")
             print(f"   {note['content']}")
+
+
+def add_habit(self):
+    name = input("\nEnter habit name: ").strip()
+
+    if not name:
+        print("Habit name cannot be empty.")
+        return
+
+    habit = Habit(name)
+    self.habits.append(habit.to_dict())
+
+    save_data("habits.json", self.habits)
+
+    print("Habit added successfully!")
+
+
+    def view_habits(self):
+        print("\n========== YOUR HABITS ==========")
+
+        if not self.habits:
+            print("No habits found.")
+            return
+
+        for index, habit in enumerate(self.habits, start=1):
+            completed = len(habit.get("completion_dates", []))
+            print(f"{index}. {habit['name']} - {completed} days completed")
+
+    def complete_habit(self):
+        self.view_habits()
+
+        if not self.habits:
+            return
+
+        try:
+            number = int(input("\nEnter habit number to complete: "))
+
+            if number < 1 or number > len(self.habits):
+                print("Invalid habit number!")
+                return
+
+            habit = self.habits[number - 1]
+            today = date.today().isoformat()
+
+            dates = habit.setdefault("completion_dates", [])
+
+            if today in dates:
+                print("You have already completed this habit today!")
+            else:
+                dates.append(today)
+                habit["completed_days"] = len(dates)
+
+                save_data("habits.json", self.habits)
+
+                print("Habit completed successfully!")
+
+        except ValueError:
+            print("Please enter a valid number.")
