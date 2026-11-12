@@ -1,6 +1,8 @@
 from models import Task, Note, Habit
 from storage import save_data, load_data
 from datetime import date
+from focus import FocusTimer
+
 
 class Nexus:
 
@@ -34,7 +36,8 @@ class Nexus:
         print("[4] Notes Manager")
         print("[5] Complete a Task")
         print("[6] Habit Tracker")
-        print("[7] Exit")
+        print("[7] Focus Timer")
+        print("[8] Exit")
 
     
     def complete_task(self):
@@ -133,8 +136,10 @@ class Nexus:
 
             elif choice == "6":
                 self.habits_menu()
-
             elif choice == "7":
+                self.focus_menu()
+
+            elif choice == "8":
                 print("\nShutting down NEXUS...")
                 break
 
@@ -286,3 +291,13 @@ class Nexus:
             else:
                 print("Invalid choice!")
 
+    def focus_menu(self):
+        timer = FocusTimer()
+
+        while True:
+            timer.start_focus()
+
+            choice = input("\nReturn to Focus Menu? (y/n): ").lower()
+
+            if choice != "y":
+                break
