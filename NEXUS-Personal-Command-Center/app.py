@@ -33,7 +33,8 @@ class Nexus:
         print("[3] Add Task")
         print("[4] Notes Manager")
         print("[5] Complete a Task")
-        print("[6] Exit")
+        print("[6] Habit Tracker")
+        print("[7] Exit")
 
     
     def complete_task(self):
@@ -131,6 +132,9 @@ class Nexus:
                 self.complete_task()
 
             elif choice == "6":
+                self.habits_menu()
+
+            elif choice == "7":
                 print("\nShutting down NEXUS...")
                 break
 
@@ -199,19 +203,19 @@ class Nexus:
             print(f"   {note['content']}")
 
 
-def add_habit(self):
-    name = input("\nEnter habit name: ").strip()
+    def add_habit(self):
+        name = input("\nEnter habit name: ").strip()
 
-    if not name:
-        print("Habit name cannot be empty.")
-        return
+        if not name:
+            print("Habit name cannot be empty.")
+            return
 
-    habit = Habit(name)
-    self.habits.append(habit.to_dict())
+        habit = Habit(name)
+        self.habits.append(habit.to_dict())
 
-    save_data("habits.json", self.habits)
+        save_data("habits.json", self.habits)
 
-    print("Habit added successfully!")
+        print("Habit added successfully!")
 
 
     def view_habits(self):
@@ -255,3 +259,30 @@ def add_habit(self):
 
         except ValueError:
             print("Please enter a valid number.")
+
+
+    def habits_menu(self):
+        while True:
+            print("\n========== HABIT TRACKER ==========")
+            print("[1] Add Habit")
+            print("[2] View Habits")
+            print("[3] Complete Habit")
+            print("[4] Back to Main Menu")
+
+            choice = input("\nHABITS >> ")
+
+            if choice == "1":
+                self.add_habit()
+
+            elif choice == "2":
+                self.view_habits()
+
+            elif choice == "3":
+                self.complete_habit()
+
+            elif choice == "4":
+                break
+
+            else:
+                print("Invalid choice!")
+
