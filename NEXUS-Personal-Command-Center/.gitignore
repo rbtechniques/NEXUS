@@ -1,2 +1,6 @@
-test_models.py
-test_storage.py
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.DS_Store
