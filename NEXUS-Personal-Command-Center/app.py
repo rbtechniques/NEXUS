@@ -31,7 +31,7 @@ class Nexus:
         print("\n[1] Dashboard")
         print("[2] View Tasks")
         print("[3] Add Task")
-        print("[4] View Notes")
+        print("[4] Notes Manager")
         print("[5] Complete a Task")
         print("[6] Exit")
 
@@ -61,8 +61,51 @@ class Nexus:
         except ValueError:
             print("Please enter a valid number.")
 
+    
+    def add_note(self):
+        title = input("\nEnter note title: ").strip()
+
+        if not title:
+            print("Note title cannot be empty.")
+            return
+
+        content = input("Enter note content: ").strip()
+
+        if not content:
+            print("Note content cannot be empty.")
+            return
+
+        note = Note(title, content)
+        self.notes.append(note.to_dict())
+
+        save_data("notes.json", self.notes)
+
+        print("Note saved successfully!")
 
 
+    def delete_note(self):
+        self.view_notes()
+
+        if not self.notes:
+            return
+
+        try:
+            note_number = int(input("\nEnter note number to delete: "))
+
+            if note_number < 1 or note_number > len(self.notes):
+                print("Invalid note number!")
+                return
+
+            removed_note = self.notes.pop(note_number - 1)
+
+            save_data("notes.json", self.notes)
+
+            print(f"Note '{removed_note['title']}' deleted successfully!")
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+    
     def run(self):
         self.show_banner()
 
@@ -82,7 +125,7 @@ class Nexus:
                 self.add_task()
 
             elif choice == "4":
-                self.view_notes()
+                self.notes_menu()
 
             elif choice == "5":
                 self.complete_task()
@@ -94,6 +137,30 @@ class Nexus:
             else:
                 print("\nInvalid option! Try again.")
 
+    def notes_menu(self):
+        while True:
+            print("\n========== NOTES MANAGER ==========")
+            print("[1] Add Note")
+            print("[2] View Notes")
+            print("[3] Delete Note")
+            print("[4] Back to Main Menu")
+
+            choice = input("\nNOTES >> ")
+
+            if choice == "1":
+                self.add_note()
+
+            elif choice == "2":
+                self.view_notes()
+
+            elif choice == "3":
+                self.delete_note()
+
+            elif choice == "4":
+                break
+
+            else:
+                print("Invalid choice!")
 
     def view_tasks(self):
         print("\n========== YOUR TASKS ==========")
@@ -128,5 +195,5 @@ class Nexus:
             return
 
         for index, note in enumerate(self.notes, start=1):
-            print(f"{index}. {note['title']}")
+            print(f"\n{index}. {note['title']}")
             print(f"   {note['content']}")
