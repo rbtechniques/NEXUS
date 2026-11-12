@@ -2,7 +2,7 @@ from models import Task, Note, Habit
 from storage import save_data, load_data
 from datetime import date
 from focus import FocusTimer
-
+from export import export_data
 
 class Nexus:
 
@@ -37,6 +37,7 @@ class Nexus:
         print("[5] Complete a Task")
         print("[6] Habit Tracker")
         print("[7] Focus Timer")
+        print("[8] Export Data")
         print("[8] Exit")
 
     
@@ -138,8 +139,9 @@ class Nexus:
                 self.habits_menu()
             elif choice == "7":
                 self.focus_menu()
-
             elif choice == "8":
+                self.export_menu()
+            elif choice == "9":
                 print("\nShutting down NEXUS...")
                 break
 
@@ -301,3 +303,6 @@ class Nexus:
 
             if choice != "y":
                 break
+
+    def export_menu(self):
+        export_data(self.tasks, self.notes, self.habits)
