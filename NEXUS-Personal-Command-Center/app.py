@@ -32,7 +32,36 @@ class Nexus:
         print("[2] View Tasks")
         print("[3] Add Task")
         print("[4] View Notes")
-        print("[5] Exit")
+        print("[5] Complete a Task")
+        print("[6] Exit")
+
+    
+    def complete_task(self):
+        self.view_tasks()
+
+        if not self.tasks:
+            return
+
+        try:
+            task_number = int(input("\nEnter task number to complete: "))
+
+            if task_number < 1 or task_number > len(self.tasks):
+                print("Invalid task number!")
+                return
+
+            task = self.tasks[task_number - 1]
+
+            if task["completed"]:
+                print("This task is already completed!")
+            else:
+                task["completed"] = True
+                save_data("tasks.json", self.tasks)
+                print("Task completed successfully!")
+
+        except ValueError:
+            print("Please enter a valid number.")
+
+
 
     def run(self):
         self.show_banner()
@@ -56,11 +85,15 @@ class Nexus:
                 self.view_notes()
 
             elif choice == "5":
+                self.complete_task()
+
+            elif choice == "6":
                 print("\nShutting down NEXUS...")
                 break
 
             else:
                 print("\nInvalid option! Try again.")
+
 
     def view_tasks(self):
         print("\n========== YOUR TASKS ==========")
