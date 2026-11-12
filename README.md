@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="assets/NEXUS-banner.png" width="100%">
+</p>
 # 🚀 NEXUS — Personal Productivity Command Center
 
 NEXUS is a Python-based productivity application designed to help users organize their daily activities, manage tasks, track habits, write notes, and stay focused.
