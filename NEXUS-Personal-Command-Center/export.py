@@ -1,7 +1,7 @@
 
 import csv
 import os
-
+from logger import log_activity
 
 def export_data(tasks, notes, habits):
     os.makedirs("exports", exist_ok=True)
@@ -42,6 +42,6 @@ def export_data(tasks, notes, habits):
                     habit.get("completion_dates", [])
                 )
             })
-
+    log_activity("All data exported to CSV")
     print("\nAll data exported successfully!")
     print("Location: exports/")

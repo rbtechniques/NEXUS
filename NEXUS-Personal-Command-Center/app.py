@@ -3,6 +3,8 @@ from storage import save_data, load_data
 from datetime import date
 from focus import FocusTimer
 from export import export_data
+from logger import log_activity
+
 
 class Nexus:
 
@@ -38,7 +40,8 @@ class Nexus:
         print("[6] Habit Tracker")
         print("[7] Focus Timer")
         print("[8] Export Data")
-        print("[8] Exit")
+        print("[9] Activity Log")
+        print("[10] Exit")
 
     
     def complete_task(self):
@@ -61,6 +64,7 @@ class Nexus:
             else:
                 task["completed"] = True
                 save_data("tasks.json", self.tasks)
+                log_activity(f"Task completed: {task['title']}")
                 print("Task completed successfully!")
 
         except ValueError:
@@ -84,6 +88,7 @@ class Nexus:
         self.notes.append(note.to_dict())
 
         save_data("notes.json", self.notes)
+        log_activity(f"New note created: {title}")
 
         print("Note saved successfully!")
 
@@ -104,7 +109,7 @@ class Nexus:
             removed_note = self.notes.pop(note_number - 1)
 
             save_data("notes.json", self.notes)
-
+            log_activity(f"Note deleted: {removed_note['title']}")
             print(f"Note '{removed_note['title']}' deleted successfully!")
 
         except ValueError:
@@ -142,6 +147,8 @@ class Nexus:
             elif choice == "8":
                 self.export_menu()
             elif choice == "9":
+                self.view_activity()
+            elif choice == "10":
                 print("\nShutting down NEXUS...")
                 break
 
@@ -195,7 +202,7 @@ class Nexus:
         self.tasks.append(task.to_dict())
 
         save_data("tasks.json", self.tasks)
-
+        log_activity(f"New task added: {title}")
         print("Task added successfully!")
 
     def view_notes(self):
@@ -221,7 +228,7 @@ class Nexus:
         self.habits.append(habit.to_dict())
 
         save_data("habits.json", self.habits)
-
+        log_activity(f"New habit added: {name}")
         print("Habit added successfully!")
 
 
@@ -261,7 +268,7 @@ class Nexus:
                 habit["completed_days"] = len(dates)
 
                 save_data("habits.json", self.habits)
-
+                log_activity(f"Habit completed: {habit['name']}")
                 print("Habit completed successfully!")
 
         except ValueError:
@@ -306,3 +313,23 @@ class Nexus:
 
     def export_menu(self):
         export_data(self.tasks, self.notes, self.habits)
+
+
+    def view_activity(self):
+        print("\n========== ACTIVITY LOG ==========")
+
+        try:
+            with open("data/nexus.log", "r") as file:
+                logs = file.readlines()
+
+            if not logs:
+                print("No activities recorded yet.")
+                return
+
+            for entry in logs[-15:]:
+                print(entry.strip())
+
+        except FileNotFoundError:
+            print("No activity log found yet.")
+
+

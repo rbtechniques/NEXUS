@@ -1,7 +1,7 @@
 [
     {
         "title": "Learn Python",
-        "completed": false
+        "completed": true
     },
     {
         "title": "Build NEXUS",
@@ -9,10 +9,14 @@
     },
     {
         "title": "Learn Python",
-        "completed": false
+        "completed": true
     },
     {
         "title": "Nexus",
+        "completed": false
+    },
+    {
+        "title": "Hello",
         "completed": false
     }
 ]
