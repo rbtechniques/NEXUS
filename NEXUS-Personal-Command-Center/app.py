@@ -20,17 +20,53 @@ class Nexus:
         print("=" * 45)
 
     def show_dashboard(self):
-        completed = sum(1 for task in self.tasks if task["completed"])
-        total = len(self.tasks)
+        print("\n" + "=" * 45)
+        print("              NEXUS DASHBOARD")
+        print("=" * 45)
 
-        print("\n========== DASHBOARD ==========")
-        print(f"Total Tasks      : {total}")
-        print(f"Completed Tasks  : {completed}")
-        print(f"Pending Tasks    : {total - completed}")
-        print(f"Total Notes      : {len(self.notes)}")
-        print(f"Tracked Habits   : {len(self.habits)}")
-        print("===============================")
+        total_tasks = len(self.tasks)
+        completed_tasks = sum(
+            1 for task in self.tasks if task["completed"]
+        )
+        pending_tasks = total_tasks - completed_tasks
 
+        if total_tasks > 0:
+            progress = (completed_tasks / total_tasks) * 100
+        else:
+            progress = 0
+
+        bar_length = 30
+        filled = int(bar_length * progress / 100)
+        progress_bar = "#" * filled + "-" * (bar_length - filled)
+
+        print("\nTASK OVERVIEW")
+        print(f"Total Tasks     : {total_tasks}")
+        print(f"Completed       : {completed_tasks}")
+        print(f"Pending         : {pending_tasks}")
+        print(f"\nProgress        : [{progress_bar}] {progress:.1f}%")
+
+        total_habits = len(self.habits)
+        completed_habits = sum(
+            len(habit.get("completion_dates", []))
+            for habit in self.habits
+        )
+
+        print("\nPERSONAL OVERVIEW")
+        print(f"Total Notes     : {len(self.notes)}")
+        print(f"Active Habits   : {total_habits}")
+        print(f"Habit Check-ins : {completed_habits}")
+
+        print("\n" + "-" * 45)
+
+        if progress == 100 and total_tasks > 0:
+            print("All tasks completed. Excellent work!")
+        elif progress >= 50:
+            print("Great progress! Keep going.")
+        else:
+            print("Every small step counts. Stay focused!")
+
+        print("=" * 45)
+           
     def show_menu(self):
         print("\n[1] Dashboard")
         print("[2] View Tasks")
